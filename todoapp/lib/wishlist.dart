@@ -7,15 +7,7 @@ class Wishlist extends StatefulWidget {
 }
 
 class _WishlistState extends State<Wishlist> {
-  final Todo = TextEditingController();
-
   final List todo = [];
-
-  void addtodo() {
-    setState(() {
-      todo.add(Todo.text);
-    });
-  }
 
   void clearlist(num index) {
     setState(() {
@@ -25,6 +17,14 @@ class _WishlistState extends State<Wishlist> {
 
   @override
   Widget build(BuildContext context) {
+    final Todo = TextEditingController();
+
+    void addtodo() {
+      setState(() {
+        todo.add(Todo.text);
+      });
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -43,7 +43,6 @@ class _WishlistState extends State<Wishlist> {
               : Container(
                   height: 450,
                   child: ListView.builder(
-
                     itemBuilder: (ctx, index) {
                       return Container(
                           decoration: BoxDecoration(
@@ -51,43 +50,34 @@ class _WishlistState extends State<Wishlist> {
                             color: Theme.of(context).accentColor,
                           )),
                           // padding: EdgeInsets.all(10),
-                          
+
                           child: Container(
                             width: double.infinity,
                             child: todo.isEmpty
                                 ? Text(todo[index])
                                 : Container(
-                                  
-
-                                  color: Theme.of(context).accentColor,
-                                  child: Column(
-
+                                    color: Theme.of(context).accentColor,
+                                    child: Column(
                                       children: [
-                                        Row(
-
-                                          
-                                          children: [
-
-                                            Text(
-                                              todo[index],
-                                            ),
-                                            IconButton(
-                                              onPressed: () => {clearlist(index)},
+                                        ListTile(
+                                          title: Text(
+                                            todo[index],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 24),
+                                          ),
+                                          subtitle: Text(DateFormat.yMd()
+                                              .format(DateTime.now())),
+                                          trailing: IconButton(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              onPressed: () =>
+                                                  {clearlist(index)},
                                               icon: Icon(Icons.delete)),
-                                            
-                                            IconButton(onPressed: (){
-                                                  
-                                                }, icon: Icon(Icons.check_box)),
-                                             
-                                            
-
-                                          ],
-                                        ),
-                                        Text(
-                                            DateFormat.yMd().format(DateTime.now()))
+                                        )
                                       ],
                                     ),
-                                ),
+                                  ),
                           ));
                     },
                     itemCount: todo.length,
